@@ -13,7 +13,7 @@ mkdir $WDIR/srv
 
 cd $WDIR/cfg
 git checkout crabserver-rest-py3
-git reset --hard $VER
+# git reset --hard $VER
 
 # adjust deploy script to use k8s host name
 cmsk8s_prod=${CMSK8S:-https://cmsweb.cern.ch}
