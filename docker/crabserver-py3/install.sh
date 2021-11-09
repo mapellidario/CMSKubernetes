@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ARCH=slc7_amd64_gcc630
-VER=HG2111d
+VER=HG2111d-comp
 REPO="comp.dmapelli"
 AREA=/data/cfg/admin
 PKGS="admin backend crabserver-py3"
