@@ -1,7 +1,7 @@
 
 
 ### build image
-docker build -t cmssw/crabserver .
+docker build -t cmssw/crabserver-py3 .
 
 ### list images
 docker images

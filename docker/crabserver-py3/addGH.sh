@@ -7,13 +7,13 @@
 # But in our images there is a single /sw*, a single scramarch in ../sw*/
 # and a single release name in /data/srv/current/sw*/*/cms/crabserver/*
 # whih usually is the GH tag plus possible a suffix like -compN
-CRABServerDir=`realpath /data/srv/current/sw*/*/cms/crabserver/*`
+CRABServerDir=`realpath /data/srv/current/sw*/*/cms/crabserver-py3/*`
 
 
 # 1. find which GitHub tags were installed
 # beware that directory name in $CRABServerDir may not be the GH tag but rather
 # name assigned at build time like v3.230303-comp4
-source `realpath /data/srv/HG*/apps/crabserver/etc/profile.d/init.sh`
+source `realpath /data/srv/HG*/apps/crabserver-py3/etc/profile.d/init.sh`
 export PYTHONPATH=${CRABServerDir}/lib/python3.8/site-packages
 CRABServerGHTag=`python3 -c "from CRABInterface import __version__; print(__version__)"`
 WMCoreGHTag=`python3 -c "from WMCore import __version__; print(__version__)"`

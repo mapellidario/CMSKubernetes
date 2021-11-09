@@ -23,7 +23,7 @@ sed -i -e "s,https://cmsweb.cern.ch,$cmsk8s_prod,g" \
     -e "s,https://cmsweb-testbed.cern.ch,$cmsk8s_prep,g" \
     -e "s,https://cmsweb-dev.cern.ch,$cmsk8s_dev,g" \
     -e "s,https://\`hostname -f\`,$cmsk8s_priv,g" \
-    crabserver/deploy
+    crabserver-py3/deploy
 
 # Deploy services
 # we do not use InstallDev script directly since we want to capture the status of
