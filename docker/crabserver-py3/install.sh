@@ -4,7 +4,7 @@ ARCH=slc7_amd64_gcc630
 VER=HG2111d
 REPO="comp.dmapelli"
 AREA=/data/cfg/admin
-PKGS="admin backend crabserver crabserver-py3"
+PKGS="admin backend crabserver-py3"
 SERVER=cmsrep.cern.ch
 
 cd $WDIR
