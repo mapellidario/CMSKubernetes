@@ -8,10 +8,11 @@ PKGS="admin backend crabserver-py3"
 SERVER=cmsrep.cern.ch
 
 cd $WDIR
-git clone git://github.com/dmwm/deployment.git cfg
+git clone git://github.com/mapellidario/deployment.git cfg
 mkdir $WDIR/srv
 
 cd $WDIR/cfg
+git checkout crabserver-rest-py3
 git reset --hard $VER
 
 # adjust deploy script to use k8s host name
