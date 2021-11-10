@@ -4,7 +4,7 @@ ARCH=slc7_amd64_gcc630
 VER=HG2111d
 REPO="comp"
 AREA=/data/cfg/admin
-PKGS="admin backend crabserver/preprod"
+PKGS="admin backend crabserver crabserver-py3"
 SERVER=cmsrep.cern.ch
 
 cd $WDIR
@@ -24,6 +24,11 @@ sed -i -e "s,https://cmsweb.cern.ch,$cmsk8s_prod,g" \
     -e "s,https://cmsweb-dev.cern.ch,$cmsk8s_dev,g" \
     -e "s,https://\`hostname -f\`,$cmsk8s_priv,g" \
     crabserver/deploy
+sed -i -e "s,https://cmsweb.cern.ch,$cmsk8s_prod,g" \
+    -e "s,https://cmsweb-testbed.cern.ch,$cmsk8s_prep,g" \
+    -e "s,https://cmsweb-dev.cern.ch,$cmsk8s_dev,g" \
+    -e "s,https://\`hostname -f\`,$cmsk8s_priv,g" \
+    crabserver-py3/deploy
 
 # Deploy services
 # we do not use InstallDev script directly since we want to capture the status of
