@@ -60,7 +60,7 @@ fi
 #done
 
 # Adjust ServerMonitor to be specific
-sed -i -e "s#ServerMonitor/2.0#ServerMonitor-crabserver#g" /data/srv/current/config/admin/ServerMonitor
+sed -i -e "s#ServerMonitor/2.0#ServerMonitor-crabrest#g" /data/srv/current/config/admin/ServerMonitor
 
 # adjust crontab
 crontab -l | egrep -v "reboot|ProxyRenew|LogArchive|ServerMonitor" > /tmp/mycron

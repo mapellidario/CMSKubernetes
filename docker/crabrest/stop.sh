@@ -1,3 +1,3 @@
 #!/bin/bash
-# stop crabserver service
-/data/srv/current/config/crabserver/manage stop 'I did read documentation'
+# stop crabrest service
+/data/srv/current/config/crabrest/manage stop 'I did read documentation'
