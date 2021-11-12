@@ -1,18 +1,18 @@
 #!/bin/bash
 
 ARCH=slc7_amd64_gcc630
-VER=HG2111d
-REPO="comp"
+VER=HG2111d-comp3
+REPO="comp.dmapelli"
 AREA=/data/cfg/admin
-PKGS="admin backend crabserver/preprod"
+PKGS="admin backend crabserver crabrest"
 SERVER=cmsrep.cern.ch
 
 cd $WDIR
-git clone git://github.com/dmwm/deployment.git cfg
+git clone git://github.com/mapellidario/deployment.git cfg
 mkdir $WDIR/srv
 
 cd $WDIR/cfg
-git reset --hard $VER
+git checkout -t origin/master-crabrestpy3_2
 
 # adjust deploy script to use k8s host name
 cmsk8s_prod=${CMSK8S:-https://cmsweb.cern.ch}
@@ -24,6 +24,12 @@ sed -i -e "s,https://cmsweb.cern.ch,$cmsk8s_prod,g" \
     -e "s,https://cmsweb-dev.cern.ch,$cmsk8s_dev,g" \
     -e "s,https://\`hostname -f\`,$cmsk8s_priv,g" \
     crabserver/deploy
+
+sed -i -e "s,https://cmsweb.cern.ch,$cmsk8s_prod,g" \
+    -e "s,https://cmsweb-testbed.cern.ch,$cmsk8s_prep,g" \
+    -e "s,https://cmsweb-dev.cern.ch,$cmsk8s_dev,g" \
+    -e "s,https://\`hostname -f\`,$cmsk8s_priv,g" \
+    crabrest/deploy
 
 # Deploy services
 # we do not use InstallDev script directly since we want to capture the status of
