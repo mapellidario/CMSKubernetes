@@ -14,13 +14,13 @@ CRABServerDir=`realpath /data/srv/current/sw*/*/cms/crabserver/*`
 # beware that directory name in $CRABServerDir may not be the GH tag but rather
 # name assigned at build time like v3.230303-comp4
 CRABServerGHTag=$(grep __version__ $CRABServerDir/lib/python*/site-packages/CRABInterface/__init__.py | tail -n 1 | cut -f1 -d"#" | cut -f2 -d"=" |  tr -d " '\"")
-WMCoreGHTag=$(grep __version__ $CRABServerDir/lib/python*/site-packages/WMCore/__init__.py | cut -f2 -d"=" |  tr -d " '\"")
+# WMCoreGHTag=$(grep __version__ $CRABServerDir/lib/python*/site-packages/WMCore/__init__.py | cut -f2 -d"=" |  tr -d " '\"")
 
 # 2. create directories for repositories and clone
 mkdir /data/repos
 pushd /data/repos
-git clone https://github.com/dmwm/CRABServer.git
-git clone https://github.com/dmwm/WMCore.git
+git clone https://github.com/mapellidario/CRABServer.git
+git clone https://github.com/mapellidario/WMCore.git
 
 # 3. checkout the installed tags and add ptrs to developers repos
 cd CRABServer
@@ -29,7 +29,7 @@ git remote add stefano https://github.com/belforte/CRABServer.git
 git remote add daina https://github.com/ddaina/CRABServer.git
 cd ..
 cd WMCore
-git checkout $WMCoreGHTag
+git checkout py3.211125
 git remote add stefano https://github.com/belforte/WMCore.git
 
 # add dummy global names to git for git stash to work

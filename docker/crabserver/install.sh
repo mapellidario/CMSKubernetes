@@ -1,8 +1,8 @@
 #!/bin/bash
 
 ARCH=slc7_amd64_gcc630
-VER=HG2112a
-REPO="comp"
+VER=HG2112a-comp2
+REPO="comp.dmapelli"
 AREA=/data/cfg/admin
 PKGS="admin backend crabserver/preprod"
 SERVER=cmsrep.cern.ch
