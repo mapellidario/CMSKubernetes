@@ -142,8 +142,10 @@ spec:
           readOnly: true
         - name: setup-certs-and-run
           mountPath: /opt/setup-certs-and-run
-        - name: logs
-          mountPath: /data/srv/logs/crabserver
+#TEST#  - name: logs
+#TEST#    mountPath: /data/srv/logs/crabserver
+#PROD#  - name: logs
+#PROD#    mountPath: /data/srv/logs/crabserver
         securityContext:
           privileged: true
 #TEST#- name: crabserver-sidecar
