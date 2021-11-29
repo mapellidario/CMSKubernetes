@@ -142,10 +142,22 @@ spec:
           readOnly: true
         - name: setup-certs-and-run
           mountPath: /opt/setup-certs-and-run
-#PROD#  - name: logs
-#PROD#    mountPath: /data/srv/logs/crabserver
+        - name: logs
+          mountPath: /data/srv/logs/crabserver
         securityContext:
           privileged: true
+      - name: crabserver-sidecar
+        image: busybox
+        args: [/bin/sh, -c, 'tail -n+1 -f /data/srv/logs/crabserver/crabserver-$(date +%Y%m%d)-$(hostname).log']
+        resources:
+          requests:
+            memory: "50Mi"
+            cpu: "50m"
+        volumeMounts:
+        - name: logs
+          mountPath: /data/srv/logs/crabserver
+        securityContext:
+          allowPrivilegeEscalation: false
 #PROD#- name: crabserver-filebeat
 #PROD#  image: docker.elastic.co/beats/filebeat:7.12.0
 #PROD#  args: [
@@ -197,6 +209,8 @@ spec:
       - name: setup-certs-and-run
         configMap:
           name: crabserver
+      - name: logs
+        emptyDir: {}
 #PROD#- name: logs
 #PROD#  persistentVolumeClaim:
 #PROD#      claimName: logs-cephfs-claim-crab
