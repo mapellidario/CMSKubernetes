@@ -1,12 +1,19 @@
 #!/bin/bash
 # helper script to deploy given service with given tag to k8s infrastructure
 
+set -e
+
 if [ $# -lt 2 ]; then
      echo "The required parameters for service and tag are missing. Please use deploy-srv.sh <service> <tag> <env> "
      exit 1;
 fi
 
-cluster_name=`kubectl config get-clusters | grep -v NAME`
+# example output:
+# CURRENT   NAME      CLUSTER                      AUTHINFO        NAMESPACE
+#           preprod   cmsweb-k8s-prodsrv-v1.22.9   openstackuser   dmwm
+# *         test11    cmsweb-test11                cmsweb-test11   dmwm
+cluster_name=$(kubectl config get-contexts | grep "[*]" | awk '{print $3}')
+
 check=true
 
 if [ $# -ne 3 ]; then
@@ -16,6 +23,9 @@ if [ $# -ne 3 ]; then
 	if [[ "$cluster_name" == *"prodsrv" ]] ; then
                 env="prod"
         fi
+	if [[ "$cluster_name" == *"preprod"* ]] ; then
+		env="prod"
+	fi
         if [[ "$cluster_name" == *"cmsweb-auth"* ]] ; then
                 env="auth"
         fi
@@ -71,100 +81,6 @@ fi
 cmsweb_env=k8s-$env
 cmsweb_log=logs-cephfs-claim-prod
 
-if [[ "$cluster_name" == *"prodsrv-v1.22.9" ]] ; then
-        if [[ "$env" != "preprod" ]] ; then
-        check=false
-        fi
-fi
-if [[ "$cluster_name" == *"prodsrv" ]] ; then
-        if [[ "$env" != "prod" ]] ; then
-        check=false
-        fi
-fi
-if [[ "$cluster_name"  == *"cmsweb-auth"* ]] ; then
-        if [[ "$env" != "auth" ]] ; then
-        check=false
-        fi
-fi
-
-if [[ "$cluster_name"  == *"cmsweb-test1" ]] ; then
-        if [[ "$env" != "test1" ]] ; then
-        check=false
-        fi
-fi
-
-if [[ "$cluster_name"  == *"cmsweb-test2" ]] ; then
-        if [[ "$env" != "test2" ]] ; then
-        check=false
-        fi
-fi
-if [[ "$cluster_name"  == *"cmsweb-test3" ]] ; then
-        if [[ "$env" != "test3" ]] ; then
-        check=false
-        fi
-fi
-if [[ "$cluster_name"  == *"cmsweb-test4" ]] ; then
-        if [[ "$env" != "test4" ]] ; then
-        check=false
-        fi
-fi
-if [[ "$cluster_name"  == *"cmsweb-test5" ]] ; then
-        if [[ "$env" != "test5" ]] ; then
-        check=false
-        fi
-fi
-if [[ "$cluster_name"  == *"cmsweb-test6" ]] ; then
-        if [[ "$env" != "test6" ]] ; then
-        check=false
-        fi
-fi
-if [[ "$cluster_name"  == *"cmsweb-test7" ]] ; then
-        if [[ "$env" != "test7" ]] ; then
-        check=false
-        fi
-fi
-if [[ "$cluster_name"  == *"cmsweb-test8" ]] ; then
-        if [[ "$env" != "test8" ]] ; then
-        check=false
-        fi
-fi
-if [[ "$cluster_name"  == *"cmsweb-test9" ]] ; then
-        if [[ "$env" != "test9" ]] ; then
-        check=false
-        fi
-fi
-if [[ "$cluster_name"  == *"cmsweb-test10" ]] ; then
-        if [[ "$env" != "test10" ]] ; then
-        check=false
-        fi
-fi
-if [[ "$cluster_name"  == *"cmsweb-test11" ]] ; then
-        if [[ "$env" != "test11" ]] ; then
-        check=false
-        fi
-fi
-if [[ "$cluster_name"  == *"cmsweb-test12" ]] ; then
-        if [[ "$env" != "test12" ]] ; then
-        check=false
-        fi
-fi
-if [[ "$cluster_name"  == *"cmsweb-test13" ]] ; then
-        if [[ "$env" != "test13" ]] ; then
-        check=false
-        fi
-fi
-
-if [[ $check == false ]] ; then
-
-        echo "The environment and config did not match. Please check."
-        exit 1;
-fi
-
-if [[ "$env" == "prod" ]] && [[ "$cmsweb_image_tag" != *"stable"* ]] ; then
-        echo "Image tag must include stable for deployment in production clusters."
-        exit 1;
-fi
-
 tmpDir=/tmp/$USER/k8s/srv
 
 # use tmp area to store service file
@@ -172,8 +88,11 @@ if [ -d $tmpDir ]; then
     rm -rf $tmpDir
 fi
 mkdir -p $tmpDir
+
+cp ./services/$srv.yaml $tmpDir/$srv.yaml
 cd $tmpDir
-curl -ksLO https://raw.githubusercontent.com/dmwm/CMSKubernetes/master/kubernetes/cmsweb/services/$srv.yaml
+# curl -ksLO https://raw.githubusercontent.com/dmwm/CMSKubernetes/master/kubernetes/cmsweb/services/$srv.yaml
+
 
 # check that service file has imagetag
 if [ -z "`grep imagetag $srv.yaml`" ]; then
@@ -228,3 +147,6 @@ fi
 
 # return to original directory
 cd -
+
+set +e
+

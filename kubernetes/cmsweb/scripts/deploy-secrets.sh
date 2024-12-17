@@ -6,7 +6,13 @@ if [ $# -ne 3 ]; then
     exit 1
 fi
 
-cluster_name=$(kubectl config get-clusters | grep -v NAME)
+# example output:
+# CURRENT   NAME      CLUSTER                      AUTHINFO        NAMESPACE
+#           preprod   cmsweb-k8s-prodsrv-v1.22.9   openstackuser   dmwm
+# *         test11    cmsweb-test11                cmsweb-test11   dmwm
+cluster_name=$(kubectl config get-contexts | grep "[*]" | awk '{print $3}')
+# old!
+#cluster_name=$(kubectl config get-clusters | grep -v NAME)
 
 ns=$1
 srv=$2
