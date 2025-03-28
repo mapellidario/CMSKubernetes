@@ -138,6 +138,7 @@ tweakEnv(){
     ls $WMA_SRC_DIR
     if [ ! -f $WMA_ENV_FILE ]; then
       echo -e "\n  Could not find $WMA_ENV_FILE, but I'm copying it now."
+      mkdir -p $(dirname ${WMA_ENV_FILE})
       cp ${WMA_SRC_DIR}/deploy/env.sh $WMA_ENV_FILE
     fi
 
