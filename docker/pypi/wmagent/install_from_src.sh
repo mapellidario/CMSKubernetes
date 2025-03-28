@@ -92,7 +92,7 @@ python3 -m pip install --upgrade pip setuptools wheel
 cp setup.py setup.py.orig
 cp requirements.txt requirements.txt.orig
 cat requirements.txt | grep -v gfal > requirements.${pkg}.txt
-awk "/(${pkg}$)|(${pkg},)/ {print $1}" requirements.${pkg}.txt > requirements.txt
+awk "/(${pkg}$)|(${pkg},)/ {print \$1}" requirements.${pkg}.txt > requirements.txt
 sed "s/PACKAGE_TO_BUILD/${pkg}/" setup_template.py > setup.py
 python3 setup.py sdist bdist_wheel
 python3 -m pip install -r requirements.txt
