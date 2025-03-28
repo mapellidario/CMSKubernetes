@@ -136,9 +136,9 @@ tweakEnv(){
     echo "check if deploy/env.sh file is present"
     echo "pwd: $WMA_SRC_DIR"
     ls $WMA_SRC_DIR
-    if [ ! -f $ENV_FILE ]; then
-      echo -e "\n  Could not find $ENV_FILE, but I'm copying it now."
-      cp ${WMA_SRC_DIR}/deploy/env.sh $ENV_FILE
+    if [ ! -f $WMA_ENV_FILE ]; then
+      echo -e "\n  Could not find $WMA_ENV_FILE, but I'm copying it now."
+      cp ${WMA_SRC_DIR}/deploy/env.sh $WMA_ENV_FILE
     fi
 
     # A function to apply environment tweaks for the docker image
