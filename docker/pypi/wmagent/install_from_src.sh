@@ -132,7 +132,7 @@ echo "Done $stepMsg!" && echo
 echo "-----------------------------------------------------------------------"
 
 tweakEnv(){
-    elif [ ! -f $ENV_FILE ]; then
+    if [ ! -f $ENV_FILE ]; then
       echo -e "\n  Could not find $ENV_FILE, but I'm copying it now."
       cp $PWD/WMCore/deploy/env.sh $ENV_FILE
     fi
