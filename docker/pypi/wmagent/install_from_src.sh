@@ -82,7 +82,16 @@ git clone https://github.com/${REPO}/WMCore.git
 pushd WMCore || exit
 export WMA_SRC_DIR=$PWD
 git checkout tags/${WMA_TAG} -b ${REPO}_${WMA_TAG}
-bash bin/test_local_build_and_install.sh
+#bash bin/test_local_build_and_install.sh
+## install wmagent only
+pkg=wmagent
+python3 -m pip install --upgrade pip setuptools wheel
+cat requirements.txt | grep -v gfal > requirements.${pkg}.txt
+awk "/(${pkg}$)|(${wmagent},)/ {print $1}" requirements.${pkg}.txt > requirements.txt
+sed "s/PACKAGE_TO_BUILD/${wmagent}/" setup_template.py > setup.py
+python3 setup.py sdist bdist_wheel
+python3 -m pip install -r requirements.txt
+python3 -m pip install --no-index --find-links=dist/ ${wmagent}
 popd || exit
 echo "Done $stepMsg!" && echo
 echo "-----------------------------------------------------------------------"
