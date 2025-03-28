@@ -50,13 +50,15 @@ ADD etc $WMA_DEPLOY_DIR/etc
 
 # Add install script
 ADD install.sh ${WMA_ROOT_DIR}/install.sh
+ADD install_from_src.sh ${WMA_ROOT_DIR}/install_from_src.sh
 
 # Add wmagent run script
 ADD run.sh ${WMA_ROOT_DIR}/run.sh
 ADD init.sh ${WMA_ROOT_DIR}/init.sh
 
 # Install the requested WMA_TAG.
-RUN ${WMA_ROOT_DIR}/install.sh -t ${WMA_TAG}
+#RUN ${WMA_ROOT_DIR}/install.sh -t ${WMA_TAG}
+RUN ${WMA_ROOT_DIR}/install_from_src.sh -t ${WMA_TAG} -r mapellidario
 
 # Switch to the runtime directory
 WORKDIR ${WMA_ROOT_DIR}
