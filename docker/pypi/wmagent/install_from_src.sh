@@ -8,6 +8,8 @@
 ### It takes a single parameter as first (and only) argument - The WMA_TAG
 ### Example: install.sh -t 2.2.0.2
 
+set -x
+
 pythonLib=$(python -c "import site; site.getsitepackages()")
 
 help(){
@@ -32,7 +34,7 @@ usage(){
 WMA_TAG=None
 
 ### Argument parsing:
-while getopts ":t:h:r" opt; do
+while getopts ":t:r:h" opt; do
     case ${opt} in
         t) WMA_TAG=$OPTARG ;;
         r) REPO=$OPTARG ;;
