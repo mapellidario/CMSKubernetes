@@ -80,7 +80,7 @@ pip install --upgrade pip
 # install from source
 git clone https://github.com/${REPO}/WMCore.git
 pushd WMCore || exit 
-git checkout -t origin/${WMA_TAG}
+git checkout tags/${WMA_TAG} -b ${REPO}_${WMA_TAG}
 bash bin/test_local_build_and_install.sh
 popd || exit
 echo "Done $stepMsg!" && echo
