@@ -89,8 +89,8 @@ python3 -m pip install --upgrade pip setuptools wheel
 cp -f setup.py.orig setup.py
 cp -f requirements.txt.orig requirements.txt
 cat requirements.txt | grep -v gfal > requirements.${pkg}.txt
-awk "/(${pkg}$)|(${wmagent},)/ {print $1}" requirements.${pkg}.txt > requirements.txt
-sed "s/PACKAGE_TO_BUILD/${wmagent}/" setup_template.py > setup.py
+awk "/(${pkg}$)|(${pkg},)/ {print $1}" requirements.${pkg}.txt > requirements.txt
+sed "s/PACKAGE_TO_BUILD/${pkg}/" setup_template.py > setup.py
 python3 setup.py sdist bdist_wheel
 python3 -m pip install -r requirements.txt
 python3 -m pip install --no-index --find-links=dist/ ${pkg}
