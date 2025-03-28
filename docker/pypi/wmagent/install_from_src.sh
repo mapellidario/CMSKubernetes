@@ -8,6 +8,9 @@
 ### It takes a single parameter as first (and only) argument - The WMA_TAG
 ### Example: install.sh -t 2.2.0.2
 
+set -e
+set -u
+set -o pipefail
 set -x
 
 pythonLib=$(python -c "import site; site.getsitepackages()")
@@ -86,8 +89,8 @@ git checkout tags/${WMA_TAG} -b ${REPO}_${WMA_TAG}
 ## install wmagent only
 pkg=wmagent
 python3 -m pip install --upgrade pip setuptools wheel
-cp -f setup.py.orig setup.py
-cp -f requirements.txt.orig requirements.txt
+cp -f setup.py setup.py.orig
+cp -f requirements.txt requirements.txt.orig
 cat requirements.txt | grep -v gfal > requirements.${pkg}.txt
 awk "/(${pkg}$)|(${pkg},)/ {print $1}" requirements.${pkg}.txt > requirements.txt
 sed "s/PACKAGE_TO_BUILD/${pkg}/" setup_template.py > setup.py
