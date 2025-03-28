@@ -32,9 +32,10 @@ usage(){
 WMA_TAG=None
 
 ### Argument parsing:
-while getopts ":t:h" opt; do
+while getopts ":t:h:r" opt; do
     case ${opt} in
         t) WMA_TAG=$OPTARG ;;
+        r) REPO=$OPTARG ;;
         h) help; exit $? ;;
         \? )
             msg="Invalid Option: -$OPTARG"
@@ -72,7 +73,14 @@ pip install wheel
 pip install --upgrade pip
 
 # Second deploy the package. Interrupt on error:
-pip install wmagent==$WMA_TAG || { err=$?; echo "Failed to install wmagent:$WMA_TAG at $WMA_DEPLOY_DIR" ; exit $err ; }
+# old: do it from pip
+##pip install wmagent==$WMA_TAG || { err=$?; echo "Failed to install wmagent:$WMA_TAG at $WMA_DEPLOY_DIR" ; exit $err ; }
+# install from source
+git clone https://github.com/${REPO}/WMCore.git
+pushd WMCore || exit 
+git checkout -t origin/${WMA_TAG}
+bash bin/test_local_build_and_install.sh
+popd || exit
 echo "Done $stepMsg!" && echo
 echo "-----------------------------------------------------------------------"
 
