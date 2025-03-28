@@ -89,14 +89,14 @@ git checkout tags/${WMA_TAG} -b ${REPO}_${WMA_TAG}
 ## install wmagent only
 pkg=wmagent
 python3 -m pip install --upgrade pip setuptools wheel
-cp -f setup.py setup.py.orig
-cp -f requirements.txt requirements.txt.orig
+cp setup.py setup.py.orig
+cp requirements.txt requirements.txt.orig
 cat requirements.txt | grep -v gfal > requirements.${pkg}.txt
 awk "/(${pkg}$)|(${pkg},)/ {print $1}" requirements.${pkg}.txt > requirements.txt
 sed "s/PACKAGE_TO_BUILD/${pkg}/" setup_template.py > setup.py
 python3 setup.py sdist bdist_wheel
 python3 -m pip install -r requirements.txt
-python3 -m pip install --no-index --find-links=dist/ ${pkg}
+python3 -m pip install --no-index --find-links=dist/ -t /usr/local ${pkg}
 popd || exit
 echo "Done $stepMsg!" && echo
 echo "-----------------------------------------------------------------------"
