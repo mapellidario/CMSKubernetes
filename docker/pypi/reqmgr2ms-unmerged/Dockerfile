@@ -1,5 +1,5 @@
 FROM registry.cern.ch/cmsweb/gfal:latest as gfal
-FROM registry.cern.ch/cmsweb/dmwm-base:pypi-20240923-stable
+FROM registry.cern.ch/cmsweb/dmwm-base:20250327
 MAINTAINER Valentin Kuznetsov vkuznet@gmail.com
 COPY --from=gfal /data/miniconda /data/miniconda
 ENV WDIR=/data
