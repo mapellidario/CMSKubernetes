@@ -2,7 +2,14 @@ FROM registry.cern.ch/cmsweb/dmwm-base:20250327
 MAINTAINER Valentin Kuznetsov vkuznet@gmail.com
 # TAG to be passed at build time through `--build-arg TAG=<PYPI_TAG>`. Default: None
 ARG TAG=None
-RUN pip install reqmgr2==$TAG
+
+# new install
+ADD install_from_src.sh ${WMA_ROOT_DIR}/install_from_src.sh
+# Install the requested WMA_TAG.
+RUN ${WMA_ROOT_DIR}/install_from_src.sh -t ${TAG} -p global-workqueue -r mapellidario
+# old install
+#RUN pip install reqmgr2==$TAG
+
 ENV WDIR=/data
 ENV USER=_reqmgr2
 RUN useradd ${USER} && install -o ${USER} -d ${WDIR}
