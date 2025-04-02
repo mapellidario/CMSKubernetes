@@ -6,7 +6,7 @@ ARG TAG=None
 # new install
 ADD install_from_src.sh ${WMA_ROOT_DIR}/install_from_src.sh
 # Install the requested WMA_TAG.
-RUN ${WMA_ROOT_DIR}/install_from_src.sh -t ${WMA_TAG} -p global-workqueue -r mapellidario
+RUN ${WMA_ROOT_DIR}/install_from_src.sh -t ${TAG} -p global-workqueue -r mapellidario
 # old install
 #RUN pip install global-workqueue==$TAG
 
