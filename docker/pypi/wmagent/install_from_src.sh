@@ -5,8 +5,6 @@
 ### * Patches can be applied when the agent container is started.
 ### * Configuration changes are made when the container is initialized for the first time with `init.sh`.
 ###
-### It takes a single parameter as first (and only) argument - The WMA_TAG
-### Example: install.sh -t 2.2.0.2
 
 set -e
 set -u
@@ -20,11 +18,11 @@ help(){
     cat <<EOF
 
 The basic WMAgent deployment script for Docker image creation:
-Usage: install.sh -t <wmagent_tag>
+Usage: install_from_src.sh -t <wmagent_tag> -r <repo name>
 
     -t <wmagent_tag>    The WMAgent version/tag to be used for the Docker image creation
 
-Example: ./install.sh -t 2.2.0.2
+Example: ./install.sh -t 2.2.0.2 -r mapellidario
 
 EOF
 }
