@@ -69,7 +69,7 @@ awk "/(${PKG}$)|(${PKG},)/ {print \$1}" requirements.${PKG}.txt > requirements.t
 sed "s/PACKAGE_TO_BUILD/${PKG}/" setup_template.py > setup.py
 python3 setup.py sdist bdist_wheel
 python3 -m pip install -r requirements.txt
-python3 -m pip install --no-index --find-links=dist/ -t /usr/local ${PKG}
+python3 -m pip install --no-index --find-links=dist/ ${PKG}
 popd || exit
 echo "Done $stepMsg!" && echo
 
