@@ -14,7 +14,17 @@ ADD run.sh $WDIR/run.sh
 RUN curl -ksLO https://raw.githubusercontent.com/dmwm/WMCore/$TAG/requirements.txt
 RUN cat requirements.txt | grep -v gfal2 > req.txt
 RUN pip install -r req.txt
-RUN pip install --no-deps reqmgr2ms-unmerged==$TAG 
+#RUN pip install --no-deps reqmgr2ms-unmerged==$TAG 
+
+# new install
+ENV WMA_PKG=reqmgr2ms-unmerged
+ENV REPO=mapellidario
+ADD install_from_src.sh ${WMA_ROOT_DIR}/install_from_src.sh
+# Install the requested WMA_TAG.
+RUN ${WMA_ROOT_DIR}/install_from_src.sh -t ${TAG} -p ${WMA_PKG} -r ${REPO}
+# old install
+#RUN pip install reqmgr2==$TAG
+
 RUN sed -i -e "s,-config.py,-config-unmerged.py,g" /data/run.sh
 RUN sed -i -e "s,config.py,config-unmerged.py,g" /data/manage
 ENV WDIR=/data
