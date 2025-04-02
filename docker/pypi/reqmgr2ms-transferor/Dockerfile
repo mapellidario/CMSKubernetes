@@ -2,7 +2,16 @@ FROM registry.cern.ch/cmsweb/dmwm-base:20250327
 MAINTAINER Valentin Kuznetsov vkuznet@gmail.com
 # TAG to be passed at build time through `--build-arg TAG=<PYPI_TAG>`. Default: None
 ARG TAG=None
-RUN pip install reqmgr2ms-transferor==$TAG
+
+# new install
+ENV WMA_PKG=reqmgr2ms-transferor
+ENV REPO=mapellidario
+ADD install_from_src.sh ${WMA_ROOT_DIR}/install_from_src.sh
+# Install the requested WMA_TAG.
+RUN ${WMA_ROOT_DIR}/install_from_src.sh -t ${TAG} -p ${WMA_PKG} -r ${REPO}
+# old install
+#RUN pip install reqmgr2ms-transferor==$TAG
+
 RUN sed -i -e "s,-config.py,-config-transferor.py,g" /data/run.sh
 RUN sed -i -e "s,config.py,config-transferor.py,g" /data/manage
 ENV WDIR=/data

@@ -4,12 +4,13 @@ MAINTAINER Valentin Kuznetsov vkuznet@gmail.com
 ARG TAG=None
 
 # new install
+ENV WMA_PKG=global-workqueue
+ENV REPO=mapellidario
 ADD install_from_src.sh ${WMA_ROOT_DIR}/install_from_src.sh
 # Install the requested WMA_TAG.
-RUN ${WMA_ROOT_DIR}/install_from_src.sh -t ${TAG} -p global-workqueue -r mapellidario
+RUN ${WMA_ROOT_DIR}/install_from_src.sh -t ${TAG} -p ${WMA_PKG} -r ${REPO}
 # old install
 #RUN pip install global-workqueue==$TAG
-
 
 ENV WDIR=/data
 ENV USER=_workqueue

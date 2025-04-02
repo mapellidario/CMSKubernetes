@@ -4,9 +4,11 @@ MAINTAINER Valentin Kuznetsov vkuznet@gmail.com
 ARG TAG=None
 
 # new install
+ENV WMA_PKG=reqmgr2
+ENV REPO=mapellidario
 ADD install_from_src.sh ${WMA_ROOT_DIR}/install_from_src.sh
 # Install the requested WMA_TAG.
-RUN ${WMA_ROOT_DIR}/install_from_src.sh -t ${TAG} -p reqmgr2 -r mapellidario
+RUN ${WMA_ROOT_DIR}/install_from_src.sh -t ${TAG} -p ${WMA_PKG} -r ${REPO}
 # old install
 #RUN pip install reqmgr2==$TAG
 
