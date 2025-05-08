@@ -2,17 +2,18 @@ FROM registry.cern.ch/cmsweb/dmwm-base:20250506.1
 MAINTAINER Valentin Kuznetsov vkuznet@gmail.com
 # TAG to be passed at build time through `--build-arg TAG=<PYPI_TAG>`. Default: None
 ARG TAG=None
+ARG REPO=None
 
-##old install
-#RUN pip install msoutput==$TAG
-ENV WMA_PKG=msoutput
-ENV REPO=mapellidario
+## from pypi
+#RUN pip install msrulecleaner==$TAG
+# from src
+ENV WMA_PKG=msrulecleaner
 ADD wmcore_install_fromsrc.sh ${WMA_ROOT_DIR}/wmcore_install_fromsrc.sh
 # Install the requested WMA_TAG.
 RUN ${WMA_ROOT_DIR}/wmcore_install_fromsrc.sh -t ${TAG} -p ${WMA_PKG} -r ${REPO}
 
-RUN sed -i -e "s,-config.py,-config-output.py,g" /data/run.sh
-RUN sed -i -e "s,config.py,config-output.py,g" /data/manage
+RUN sed -i -e "s,-config.py,-config-ruleCleaner.py,g" /data/run.sh
+RUN sed -i -e "s,config.py,config-ruleCleaner.py,g" /data/manage
 ENV WDIR=/data
 ENV USER=_reqmgr2ms
 RUN useradd ${USER} && install -o ${USER} -d ${WDIR}

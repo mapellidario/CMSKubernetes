@@ -2,6 +2,7 @@ FROM registry.cern.ch/cmsweb/dmwm-base:20250506.1
 MAINTAINER Valentin Kuznetsov vkuznet@gmail.com
 # TAG to be passed at build time through `--build-arg TAG=<PYPI_TAG>`. Default: None
 ARG TAG=None
+ARG REPO=None
 
 ##old install
 #RUN pip install msoutput==$TAG
