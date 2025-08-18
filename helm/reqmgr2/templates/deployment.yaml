@@ -73,6 +73,10 @@ spec:
         - name: logs
           mountPath: /data/srv/logs/reqmgr2
         {{- end }}
+        {{- if or (eq (toString $environment) "test") }}  
+        - name: logs
+          mountPath: /data/srv/logs/reqmgr2
+        {{- end }}
         securityContext:
           privileged: true
         {{- if or (eq (toString $environment) "prod") (eq (toString $environment) "preprod") }}
@@ -103,6 +107,34 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
         {{- end }}
+        {{- if or (eq (toString $environment) "test") }}
+      - name: reqmgr2-filebeat
+        image: {{ .Values.imageFilebeat.path}}
+        args: [
+          "-c", "/etc/filebeat.yml",
+          "-e",
+        ]
+        env:
+        {{- toYaml .Values.imageFilebeat.env | nindent 10 }}
+        resources:
+        {{- toYaml .Values.imageFilebeatResources | nindent 12 }}
+        volumeMounts:
+        - name: logs
+          mountPath: /data/srv/logs/reqmgr2
+        - name: config
+          mountPath: /etc/filebeat.yml
+          readOnly: true
+          subPath: filebeat.yml
+        - name: data
+          mountPath: /usr/share/filebeat/data
+        - name: varlog
+          mountPath: /var/log
+        - name: varlibdockercontainers
+          mountPath: /var/lib/docker/containers
+          readOnly: true
+        securityContext:
+          allowPrivilegeEscalation: false
+        {{- end}}
       volumes:
       - name: proxy-secrets
         secret:
@@ -147,3 +179,19 @@ spec:
       - name: data
         emptyDir: {}
       {{- end }}
+      {{- if or (eq (toString $environment) "test") }}
+      - name: logs
+        emptyDir: {}
+      - name: data
+        emptyDir: {}
+      - name: varlog
+        hostPath:
+          path: /var/log
+      - name: varlibdockercontainers
+        hostPath:
+          path: /var/lib/docker/containers
+      - name: config
+        configMap:
+          defaultMode: 0640
+          name: reqmgr2-filebeat-config
+      {{- end}}
